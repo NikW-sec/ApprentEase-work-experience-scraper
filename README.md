@@ -1,6 +1,6 @@
 # ApprentEase Work Experience Scraper
 
-An automated C# web scraper that collects work experience opportunities from multiple platforms using HTML parsing, API integration, Discord webhooks and GitHub Actions workflows to deliver new opportunities to the ApprentEase Discord community.
+An automated C# web scraper that collects work experience opportunities from multiple platforms using HTML parsing and API integration, then delivers new opportunities to the 7,000+ member ApprentEase Discord community through Discord webhooks and GitHub Actions.
 
 ## Features
 
@@ -48,16 +48,22 @@ It retries failed messages and records delivery failures in `failedEvents.txt` f
 
 ### 4. GitHub Actions Automation
 
-The YAML workflow automatically runs every Monday at 10:00 am (Europe/London).
+GitHub Actions provisions a temporary Ubuntu virtual machine using runs-on: ubuntu-latest. This acts as the execution environment for the scraper, allowing it to run without local computer.
+The YAML workflow automatically runs every Monday at 10:00 am (Europe/London):
 
-1. Checks out the `main` branch containing the source code.
-2. Checks out the `data` branch containing the previous run's event links.
-3. Set up .NET and puts the link files where the application can read them.
-4. Runs the scraper.
-5. Copy the updated link files back into the `data` branch checkout.
-6. Commits and pushes the changes to the `data` branch.
+1.Downloads the main branch containing the source code.
 
-The workflow reads the Discord webhook URL from the `DISCORD_WEBHOOK_URL` GitHub Actions secret to enhance security as it is separate from the source code.
+2.Downloads the data branch containing the previous run's event links and failed messages.
+
+3.Sets up the .NET environment and places the data files where the application can access them.
+
+4.Executes the C# scraper.
+
+5.Copies the updated event-history and failed-message files back into the data branch checkout.
+
+6.Commits and pushes the updated files to the data branch, preserving them for the next execution.
+
+7.The workflow reads the Discord webhook URL from the `DISCORD_WEBHOOK_URL` GitHub Actions secret to enhance security as it is separate from the source code.
 
 ## Error Handling and Limitations
 
@@ -87,4 +93,3 @@ dotnet run --project "Scrapers/ApprentEase Scraper.csproj"
 
 ---
 
-Developed for the **ApprentEase Discord community**.
