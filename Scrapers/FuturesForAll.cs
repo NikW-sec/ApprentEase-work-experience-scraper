@@ -40,6 +40,11 @@ public class FuturesForAllScraper
                 max++;
                 continue;
             }
+            catch (OperationCanceledException)  //catch timeout error
+            {
+              max++;
+              continue;
+            }
         }
         if (json == null)
         {
