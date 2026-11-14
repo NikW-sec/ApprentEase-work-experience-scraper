@@ -44,13 +44,15 @@ public class UpTreeScraper
         }
     }
 
-    async Task scraping()   //async to allow pause in this method
+    async Task<bool> scraping()   //async to allow pause in this method
     {
         while (true)  //will only stop by break once all pages are scraped
         {
             if (FailedPages.Count ==3)
             {
-                throw new Exception ("This run has failed");
+                return false;
+                //this ends the scrape and trigger saving links from previous and current run.
+                
             }
             
             string url;
@@ -147,6 +149,7 @@ public class UpTreeScraper
                 catch (Exception ex)
                 {
                     throw new Exception(ex.ToString());
+        
                 }
                 
                 
@@ -154,6 +157,7 @@ public class UpTreeScraper
             i++;  //increase i to move to next page
             MaxRequest = 0; //reset max request so each page can have three reload
         }
+        return FailedPages.Count == 0;   //this is to prevent links went missing leading to duplicate posting, if this returns false, the file will save all links of last run + links of this run
     }
 
 
@@ -203,8 +207,18 @@ public class UpTreeScraper
         PreviousLinks.Clear();
 
         GetLastRun();
-        await scraping();  // there is pause in this method so awair allows waiting
+        bool sucessfull = await scraping();  // there is pause in this method so awair allows waiting
         //displayEvents();
+        if (sucessfull == false)
+        {
+            foreach (string link in PreviousLinks)  //prevent duplicate posting by saving all links of previous run and current run
+            {
+                 if (!CurrentLinks.Contains(link)) //so one link only gets one copy
+                {
+                    CurrentLinks.Add(link);
+                }
+            }
+        }
 
         Console.WriteLine(NumberAndError());
         
