@@ -21,16 +21,6 @@ catch (Exception ex)
 }
 
 
-UpTreeScraper uptree = new UpTreeScraper(); //object for the UpTree scraper
-await uptree.main();
-List<UpTreeScraper.Events> uptreeEvents = uptree.ListOfEvents;
-
-FuturesForAllScraper futures = new FuturesForAllScraper();
-await futures.main();
-List<FuturesForAllScraper.Event> futuresEvents = futures.listOfEvents;
-
-
-
 
 
 // Create the object that sends HTTP requests.
@@ -48,6 +38,10 @@ async Task<bool> Sending(string platform,string name,string date,string link, st
     }
     else
     {
+        if (string.IsNullOrEmpty(sector))
+        {
+            sector = "Not specified";  //this prevents setor from being blank
+        }
         Description = $"**Platform** = {platform}\n\n**Organisation** = {organisation} \n**Date** = {date} \u2003\u2003**Duration** = {days} days\n\n **Type** = {type}\u2003\u2003**Sector** = {sector}";  // u2003 for spacing
     }
     var message = new //the variable sent to discord
@@ -100,17 +94,24 @@ async Task<bool> Sending(string platform,string name,string date,string link, st
     }
     return true;
 }
-
+UpTreeScraper uptree = new UpTreeScraper(); //object for the UpTree scraper
 async Task UpTree()
 {
+    
+    await uptree.main();
+    List<UpTreeScraper.Events> uptreeEvents = uptree.ListOfEvents;
     foreach (var k in uptreeEvents)
     {
         await Sending("UpTree",k.Name,k.Date,k.Link);
     }
     UpTreeSaveCurrentLinks();
 }
+FuturesForAllScraper futures = new FuturesForAllScraper();
 async Task FuturesForAll()
 {
+    
+    await futures.main();
+    List<FuturesForAllScraper.Event> futuresEvents = futures.listOfEvents;
     foreach(var k in futuresEvents)
     {
         await Sending("FuturesForAll",k.EventName,k.StartDate,k.Link,k.OrganisationName,k.Type,k.Sector,k.Days);
@@ -125,6 +126,7 @@ void UpTreeSaveCurrentLinks()
         
         using (StreamWriter writer = new StreamWriter("EventLinks.txt",false))  //overwrite mode so it removes the exisiting links in the file
         {
+
             foreach (var k in uptree.CurrentLinks)
             {   
              writer.WriteLine(k); //save only the link, so this can be used to filter which ones are new later
@@ -218,10 +220,23 @@ async Task Recovery()
 
     
 }
+try //even if one scraper is not working, its errros doesn't stop the program
+{
+    await UpTree();
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"UpTree failed {ex}");
+}
 
-await UpTree();
-
-await FuturesForAll();
+try
+{
+ await FuturesForAll();
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Futures for all failed {ex}");
+}
 
 await Recovery();
 
