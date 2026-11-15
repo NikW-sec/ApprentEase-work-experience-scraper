@@ -104,7 +104,7 @@ ApprentEase-Scraper/
 │   └── workflows/
 │       └── scraper.yaml              # GitHub Actions workflow
 │
-├── Failure-logs/                     # Failed page records
+├── Failure-logs/                     # Records of errors and issues
 │
 ├── Scrapers/
 │   ├── Program.cs                    # Main program
@@ -112,7 +112,7 @@ ApprentEase-Scraper/
 │   ├── FuturesForAll.cs              # Futures For All scraper (JSON API)
 │   └── ApprentEase Scraper.csproj    # .NET project configuration
 │
-├── test/                             # Testing files
+├── test/                             # HTML/JSON captures, scraper outputs, discord webhook testing screenshots
 │
 ├── .gitignore                        # Files excluded from Git
 ├── LICENSE                           # Project licence
