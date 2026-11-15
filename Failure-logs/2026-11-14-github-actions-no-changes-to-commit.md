@@ -17,5 +17,6 @@ git commit -m "updating event links" || true
 
 
 This allows the workflow to continue even when there are no changes to commit.
+---
 
 Status: fixed
