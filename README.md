@@ -1,15 +1,13 @@
 ## Data Branch
 
-The `data` branch stores three files used to maintain the scraper's state between runs:
+The `data` branch stores three text files:
 
-| File | Purpose |
-|---|---|
-| `EventLinks.txt` | Uptree links collected during the most recent run. |
-| `EventLinks2.txt` | Futures For All links collected during the most recent run. |
-| `failedEvents.txt` | Details of Discord messages that failed to send. |
+- `EventLinks.txt` – Uptree event links.
+- `EventLinks2.txt` – Futures For All event links.
+- `failedEvents.txt` – Events that failed to send to Discord.
 
-The application in the `main` branch reads the two event-history files and compares their contents against newly scraped opportunities to identify new events.
+The main branch reads the two link files and uses them to check which scraped events are new.
 
-After each run, GitHub Actions updates the files and automatically commits and pushes the changes back to this branch.
+After each run, GitHub Actions updates the files and pushes them back to this branch so they can be used in the next run.
 
-`failedEvents.txt` stores messages awaiting successful delivery. If the file is empty, there are currently no recorded failed messages awaiting recovery.
+`failedEvents.txt` is used to store messages that couldn't be sent. If the file is empty, there are no failed messages to retry.
