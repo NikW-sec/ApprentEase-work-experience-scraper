@@ -92,4 +92,18 @@ dotnet run --project "Scrapers/ApprentEase Scraper.csproj"
 ```
 
 ---
+# Project Structure
+ApprentEase-Scraper/
+│
+├── .github/
+│   └── workflows/
+│       └── scraper.yaml              # GitHub Actions workflow
+│
+├── Scrapers/
+│   ├── Program.cs                    # Main program
+│   ├── UpTree.cs                     # Uptree scraper (HTML parsing)
+│   ├── FuturesForAll.cs              # Futures For All scraper (JSON API)
+│   └── ApprentEase Scraper.csproj    # .NET project configuration
+│
+└── README.md                         # Project documentation
 
