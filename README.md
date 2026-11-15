@@ -95,6 +95,8 @@ dotnet run --project "Scrapers/ApprentEase Scraper.csproj"
 
 ## Project Structure
 
+### Main Branch
+
 ```text
 ApprentEase-Scraper/
 │
@@ -102,12 +104,31 @@ ApprentEase-Scraper/
 │   └── workflows/
 │       └── scraper.yaml              # GitHub Actions workflow
 │
+├── Failure-logs/                     # Failed page records
+│
 ├── Scrapers/
 │   ├── Program.cs                    # Main program
 │   ├── UpTree.cs                     # Uptree scraper (HTML parsing)
 │   ├── FuturesForAll.cs              # Futures For All scraper (JSON API)
 │   └── ApprentEase Scraper.csproj    # .NET project configuration
 │
-└── README.md                         # Project documentation
+├── test/                             # Testing files
+│
+├── .gitignore                        # Files excluded from Git
+├── LICENSE                           # Project licence
+├── README.md                          # Project documentation
+└── Resouces.md                        # Additional technical notes
+```
+
+### Data Branch
+
+The separate `data` branch stores the files needed to maintain the scraper's state between runs.
+
+```text
+data/
+│
+├── EventLinks.txt                    # Previous Uptree links
+├── EventLinks2.txt                   # Previous Futures For All links
+└── failedEvents.txt                  # Failed Discord messages
 ```
 
