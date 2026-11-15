@@ -92,7 +92,10 @@ dotnet run --project "Scrapers/ApprentEase Scraper.csproj"
 ```
 
 ---
-# Project Structure
+
+## Project Structure
+
+```text
 ApprentEase-Scraper/
 │
 ├── .github/
@@ -106,4 +109,5 @@ ApprentEase-Scraper/
 │   └── ApprentEase Scraper.csproj    # .NET project configuration
 │
 └── README.md                         # Project documentation
+```
 
